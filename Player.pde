@@ -12,7 +12,8 @@ class Player
   {
   noStroke();
   background(255); // Background color
-  fill(100, 0, 100);
+  fill(100, 0, 300);
+  
   ellipseMode(CENTER);
   ellipse(mouseX ,mouseY,30,30); // Placing the circle
   }

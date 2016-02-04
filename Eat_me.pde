@@ -4,6 +4,7 @@ class Eat_me
   color c;
   float x;
   float y;
+  
   //constructor
   Eat_me()
   {
