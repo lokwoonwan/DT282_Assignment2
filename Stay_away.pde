@@ -50,7 +50,8 @@ class Stay_away
     fill(c);
     pushMatrix();
     translate(pos.x, pos.y);
-    ellipse(0, 0, size, size); // Placing the circle
+    rect(0, 0, size, size);
+    //ellipse(0, 0, size, size); // Placing the circle
     popMatrix();
     
   }

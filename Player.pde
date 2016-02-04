@@ -11,11 +11,13 @@ class Player
   void render()
   {
   noStroke();
-  background(255); // Background color
+  //background(255); // Background color
   fill(100, 0, 300);
   
-  ellipseMode(CENTER);
-  ellipse(mouseX ,mouseY,30,30); // Placing the circle
+  rectMode(CENTER);
+  //ellipseMode(CENTER);
+  rect(mouseX ,mouseY,30,30);
+  //ellipse(mouseX ,mouseY,30,30); // Placing the circle
   }
   
 }
