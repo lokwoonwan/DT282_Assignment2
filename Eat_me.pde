@@ -18,7 +18,7 @@ class Eat_me
   {
     noStroke();
     fill(c);
-    rect(x, y, size, size);
-    //ellipse(x, y, size, size); // Placing the circle
+    //rect(x, y, size, size);
+    ellipse(x, y, size, size); // Placing the circle
   }
 }

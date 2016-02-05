@@ -23,7 +23,7 @@ void setup()
   
   player = new Player();
 
-  for (int i = 0; i < 50; i++)
+  for (int i = 0; i < 100; i++)
   {
      Eat_me eat_me = new Eat_me();
      lBall.add(eat_me);
@@ -45,7 +45,24 @@ void draw()
 {
   background (255);
   
-  for (int i = 0; i < 50; i++)
+  if (lBall.size()< 60)
+  {
+    Eat_me eat_me = new Eat_me();
+    lBall.add(eat_me);
+  }
+  
+  for (int i = 0; i < lBall.size(); i++)
+   {
+    if (dist(lBall.get(i).x, lBall.get(i).y, mouseX, mouseY) < (player.size/2))
+    {
+      println("remove");
+      lBall.remove(i);
+      
+      player.update();
+    }
+   }
+  
+  for (int i = 0; i < lBall.size(); i++)
     lBall.get(i).render();
     
    for (int i = 0; i < 4; i++)
@@ -53,5 +70,9 @@ void draw()
      evilBall.get(i).render();
      evilBall.get(i).update();
    }
+   
    player.render();
+   
+   
+   
 }
