@@ -4,10 +4,6 @@
 //  background(255);
 //}
 
-//void draw()
-//{
-//  menu();
-//}
 
 ArrayList <Eat_me> lBall = new ArrayList <Eat_me> (); //Make array list for the balls.
 ArrayList <Stay_away> evilBall = new ArrayList <Stay_away> ();
@@ -15,25 +11,29 @@ ArrayList <Stay_away> evilBall = new ArrayList <Stay_away> ();
 PVector theBallPosition;
 PVector theBallVelocity;  
 
+int mode;
+boolean dead;
+
 void setup()
 {
   smooth();
   frameRate(60);
   size(800, 800);
-  
+
   player = new Player();
+  dead = false;
 
   for (int i = 0; i < 100; i++)
   {
-     Eat_me eat_me = new Eat_me();
-     lBall.add(eat_me);
+    Eat_me eat_me = new Eat_me();
+    lBall.add(eat_me);
   }
-  
-   for (int i = 0; i < 4; i++)
-   {
-     Stay_away stay_away = new Stay_away(i);
-     evilBall.add(stay_away);
-   }
+
+  for (int i = 0; i < 4; i++)
+  {
+    Stay_away stay_away = new Stay_away(i);
+    evilBall.add(stay_away);
+  }
 }
 
 
@@ -44,35 +44,82 @@ Player player;
 void draw()
 {
   background (255);
-  
-  if (lBall.size()< 60)
+
+  switch(mode)
   {
-    Eat_me eat_me = new Eat_me();
-    lBall.add(eat_me);
-  }
-  
-  for (int i = 0; i < lBall.size(); i++)
-   {
-    if (dist(lBall.get(i).x, lBall.get(i).y, mouseX, mouseY) < (player.size/2))
+  case 0:
     {
-      println("remove");
-      lBall.remove(i);
+      // Menu
+      textAlign(CENTER);
+      stroke(0);
+      textSize(50);
+      fill (255);
+      text(" Menu ", width/2, height/2 - 100);
+      textSize(20);
+      fill(random(255), random(255), random(255));
+      text(" Press 1 to play!", width/2, height/2 - 50);
+
+      break;
+    }// End case 0
+
+  case 1:
+    {
+//adds more eat_me
+      if (lBall.size()< 60)
+      {
+        Eat_me eat_me = new Eat_me();
+        lBall.add(eat_me); 
+      }
+
+//eat me hitbox
+      for (int i = 0; i < lBall.size(); i++)
+      {
+        if (dist(lBall.get(i).x, lBall.get(i).y, mouseX, mouseY) < (player.size/2))
+        {
+          //println("remove");
+          lBall.remove(i);
+
+          player.increase();
+        }
+      }
+
+// shows eat me
+      for (int i = 0; i < lBall.size(); i++)
+       lBall.get(i).render();
+
+  //** Evil Ball **//
+     for (int i = 0; i < evilBall.size(); i++)
+     {
+       if (dist(evilBall.get(i).pos.x, evilBall.get(i).pos.y, mouseX, mouseY) < (player.size/2))
+       {
+         //println("remove");
+         evilBall.remove(i);
+         
+         
+       }
+     }
+
+      for (int i = 0; i < evilBall.size(); i++)
+      {
+        evilBall.get(i).render();
+        evilBall.get(i).update();
+      }
       
-      player.update();
+      
+        player.render();
+        
+        
+      break;
     }
-   }
-  
-  for (int i = 0; i < lBall.size(); i++)
-    lBall.get(i).render();
-    
-   for (int i = 0; i < 4; i++)
-   {
-     evilBall.get(i).render();
-     evilBall.get(i).update();
-   }
-   
-   player.render();
-   
-   
-   
+  }
 }
+
+
+void keyPressed() // User's graph selection
+{
+  if (key >= '0' && key <='3')
+  {
+    mode = key - '0';
+  }// end if
+  println(mode);
+}// end keyPressed()

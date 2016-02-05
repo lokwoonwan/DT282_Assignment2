@@ -13,7 +13,7 @@ class Stay_away
   //constructor
   Stay_away(int speed)
   {
-    size = 20;
+    size = 30;
     c = color(255,0,0);
     x = random(width);
     y = random(height);

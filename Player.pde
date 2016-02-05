@@ -7,7 +7,7 @@ class Player
   {
   theBallPosition = new PVector(width/2,height/2); 
   theBallVelocity = new PVector(1.3,1);
-  size = 30;
+  size = 20;
   }
   
   void render()
@@ -22,17 +22,22 @@ class Player
   ellipse(mouseX ,mouseY,size,size); // Placing the circle
   }
   
-  void update()
+  void increase()
   {
-    if (size < 59)
+    if (size <= 70)
     {
-      size += 2;
+      size += 1;
     }
     
-    else if (size >= 60)
+    else if (size >= 71)
     {
       size += .2;
     }
+    
+    println("Ball size : " + size);
   }
   
+  //void decrease()
+  //{
+  //}
 }
