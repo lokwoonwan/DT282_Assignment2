@@ -95,7 +95,7 @@ void draw()
          //println("remove");
          evilBall.remove(i);
          
-         
+         dead = true;
        }
      }
 
@@ -105,15 +105,26 @@ void draw()
         evilBall.get(i).update();
       }
       
-      
+      if (dead != true)
         player.render();
         
-        
+        if (dead)
+        gameOver();
       break;
     }
   }
 }
 
+void gameOver()
+{
+  background(255,0,0);
+  textAlign(CENTER);
+  fill(255);
+  textSize(50);
+  text("Game Over", width/2, height/2 - 100);
+  
+  
+}
 
 void keyPressed() // User's graph selection
 {
