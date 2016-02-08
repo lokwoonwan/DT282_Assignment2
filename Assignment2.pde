@@ -43,7 +43,7 @@ Player player;
 
 void draw()
 {
-  
+
   println(mouseX, mouseY);
   background (255);
 
@@ -113,12 +113,18 @@ void menu()
   //boolean overPlay = false;
   float bx = 200;
   float by= height/3;
-  
+
+  menuBackground();
+
+  fill (245);
+  stroke(0);
   rect(bx, by, (bx*2), 100);
+
+  textSize (20);
   fill (0);
-  text("testing" , width/2, 318);
-  fill (255);
-  
+  text("Play", (width/3 + 110), 318);
+
+
   //if (mouseX > bx) && mouseX < (bx*2) &&
   //   mouseY > (200, 369) && mouseY < (600, 369) )
   //   {
@@ -133,6 +139,21 @@ void menu()
   //textSize(20);
   //fill(random(255), random(255), random(255));
   //text(" Press 1 to play!", width/2, height/2 - 50);
+}
+
+void menuBackground()
+{
+  background (245);
+  fill(255, 0, 0, 240);
+  
+  for (int i = 0; i < lBall.size(); i++)
+    lBall.get(i).render();
+    
+    for (int i = 0; i < evilBall.size(); i++)
+      {
+        evilBall.get(i).render();
+        evilBall.get(i).update();
+      }
 }
 
 void gameOver()
