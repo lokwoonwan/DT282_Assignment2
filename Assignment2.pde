@@ -43,35 +43,28 @@ Player player;
 
 void draw()
 {
+  
+  println(mouseX, mouseY);
   background (255);
 
   switch(mode)
   {
   case 0:
     {
-      // Menu
-      textAlign(CENTER);
-      stroke(0);
-      textSize(50);
-      fill (255);
-      text(" Menu ", width/2, height/2 - 100);
-      textSize(20);
-      fill(random(255), random(255), random(255));
-      text(" Press 1 to play!", width/2, height/2 - 50);
-
+      menu();
       break;
     }// End case 0
 
   case 1:
     {
-//adds more eat_me
+      //adds more eat_me
       if (lBall.size()< 60)
       {
         Eat_me eat_me = new Eat_me();
-        lBall.add(eat_me); 
+        lBall.add(eat_me);
       }
 
-//eat me hitbox
+      //eat me hitbox
       for (int i = 0; i < lBall.size(); i++)
       {
         if (dist(lBall.get(i).x, lBall.get(i).y, mouseX, mouseY) < (player.size/2))
@@ -83,47 +76,73 @@ void draw()
         }
       }
 
-// shows eat me
+      // shows eat me
       for (int i = 0; i < lBall.size(); i++)
-       lBall.get(i).render();
+        lBall.get(i).render();
 
-  //** Evil Ball **//
-     for (int i = 0; i < evilBall.size(); i++)
-     {
-       if (dist(evilBall.get(i).pos.x, evilBall.get(i).pos.y, mouseX, mouseY) < (player.size/2))
-       {
-         //println("remove");
-         evilBall.remove(i);
-         
-         dead = true;
-       }
-     }
+      //** Evil Ball **//
+      for (int i = 0; i < evilBall.size(); i++)
+      {
+        if (dist(evilBall.get(i).pos.x, evilBall.get(i).pos.y, mouseX, mouseY) < (player.size/2))
+        {
+          //println("remove");
+          evilBall.remove(i);
+
+          dead = true;
+        }
+      }
 
       for (int i = 0; i < evilBall.size(); i++)
       {
         evilBall.get(i).render();
         evilBall.get(i).update();
       }
-      
+
       if (dead != true)
         player.render();
-        
-        if (dead)
+
+      if (dead)
         gameOver();
       break;
     }
   }
 }
 
+void menu()
+{
+  //boolean overPlay = false;
+  float bx = 200;
+  float by= height/3;
+  
+  rect(bx, by, (bx*2), 100);
+  fill (0);
+  text("testing" , width/2, 318);
+  fill (255);
+  
+  //if (mouseX > bx) && mouseX < (bx*2) &&
+  //   mouseY > (200, 369) && mouseY < (600, 369) )
+  //   {
+  //   overPlay = true;
+  //   }
+  // Menu
+  //textAlign(CENTER);
+  //stroke(0);
+  //textSize(50);
+  //fill (255);
+  //text(" Menu ", width/2, height/2 - 100);
+  //textSize(20);
+  //fill(random(255), random(255), random(255));
+  //text(" Press 1 to play!", width/2, height/2 - 50);
+}
+
 void gameOver()
 {
-  background(255,0,0);
+
+  background(255, 0, 0);
   textAlign(CENTER);
   fill(255);
   textSize(50);
   text("Game Over", width/2, height/2 - 100);
-  
-  
 }
 
 void keyPressed() // User's graph selection
