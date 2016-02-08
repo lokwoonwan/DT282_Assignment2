@@ -14,11 +14,17 @@ PVector theBallVelocity;
 int mode;
 boolean dead;
 
+
 void setup()
 {
   smooth();
   frameRate(60);
   size(800, 800);
+  
+  PFont font;
+  font = loadFont("AmericanTypewriter-48.vlw");
+  textFont(font, 48);
+
 
   player = new Player();
   dead = false;
@@ -40,6 +46,19 @@ void setup()
 
 Player player;
 
+
+  float bx = 200;
+  float by= height/3;
+ 
+//bx, by, (bx*2), (by+70)
+ 
+void mousePressed()
+{
+   if (mouseX > bx && mouseX < (bx*3) && mouseY > (height/3) && mouseY < (height/3 +70) )
+    {
+    mode = 1;
+    }
+}
 
 void draw()
 {
@@ -102,34 +121,37 @@ void draw()
         player.render();
 
       if (dead)
-        gameOver();
+        mode = 2;
+      break;
+    }
+    case 2:
+    {
+      gameOver();
+      //
       break;
     }
   }
 }
 
+
+
 void menu()
 {
   //boolean overPlay = false;
-  float bx = 200;
-  float by= height/3;
+
 
   menuBackground();
 
-  fill (245);
+  fill (235);
   stroke(0);
-  rect(bx, by, (bx*2), 100);
-
+  rect(width/4, height/3, (bx*2), (by+70));
+  println("by is " + by);
   textSize (20);
   fill (0);
   text("Play", (width/3 + 110), 318);
 
 
-  //if (mouseX > bx) && mouseX < (bx*2) &&
-  //   mouseY > (200, 369) && mouseY < (600, 369) )
-  //   {
-  //   overPlay = true;
-  //   }
+
   // Menu
   //textAlign(CENTER);
   //stroke(0);
@@ -143,17 +165,17 @@ void menu()
 
 void menuBackground()
 {
-  background (245);
+  background (235);
   fill(255, 0, 0, 240);
-  
+
   for (int i = 0; i < lBall.size(); i++)
     lBall.get(i).render();
-    
-    for (int i = 0; i < evilBall.size(); i++)
-      {
-        evilBall.get(i).render();
-        evilBall.get(i).update();
-      }
+
+  for (int i = 0; i < evilBall.size(); i++)
+  {
+    evilBall.get(i).render();
+    evilBall.get(i).update();
+  }
 }
 
 void gameOver()
@@ -164,6 +186,8 @@ void gameOver()
   fill(255);
   textSize(50);
   text("Game Over", width/2, height/2 - 100);
+  text("Play again!", width/2, height/2 + 50);
+  mode = 2;
 }
 
 void keyPressed() // User's graph selection
