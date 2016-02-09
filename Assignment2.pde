@@ -141,6 +141,8 @@ void menuBackground()
 }//end menuBackgrpund()
 
 int counter = 1;
+int LevelOp=0;
+boolean LevelOpB=false;
 void playGame()
 {
    switch (level)
@@ -156,14 +158,23 @@ void playGame()
     Eat_me eat_me = new Eat_me();
     lBall.add(eat_me);
   }//end if
- println("Number of lballs " + lBall.size());
+ //println("Number of lballs " + lBall.size());
   //eat me hitbox
   break;
   }//end case 1
 
   case 2:
   {
-
+    //fill(0,LevelOp);
+    //textAlign(CENTER);
+    //text("NEXT LEVEL",width/2,height/2);
+    //if(LevelOpB==true)
+    //{
+    //  LevelOp=255;
+    //  LevelOpB=false;
+    //}
+    //LevelOp--; 
+    
   //sets lball to 80
   if (lBall.size() > 80)
   {
@@ -188,9 +199,11 @@ break;
   //** Evil Ball **//
 
   // Every 200 balls eaten, go up a level
-  if (counter % 100 == 0)
+  if (counter % 200 == 0)
   {
     level++;
+    //LevelOpB=true;
+    println("next level");
   }
 
 for (int i = 0; i < lBall.size(); i++)
@@ -201,7 +214,7 @@ for (int i = 0; i < lBall.size(); i++)
       lBall.remove(i);
 
       counter ++;
-      println("The number of lBall eaten " + counter);
+      //println("The number of lBall eaten " + counter);
 
       player.increase();
     }

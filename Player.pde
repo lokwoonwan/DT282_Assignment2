@@ -34,7 +34,7 @@ class Player
       size += .2;
     }
     
-    println("Ball size : " + size);
+    //println("Ball size : " + size);
   }
   
   //void decrease()
