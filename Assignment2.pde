@@ -5,7 +5,11 @@ PVector theBallPosition;
 PVector theBallVelocity;  
 
 int mode;
+int level;
 boolean dead;
+
+int numlBall = 100;
+int numeBall = 4;
 
 
 void setup()
@@ -21,17 +25,19 @@ void setup()
   player = new Player();
   dead = false;
 
-  for (int i = 0; i < 100; i++)
+  //****** ADDING INITIAL OBJECTS TO START OF GAME *******//
+  for (int i = 0; i <= numlBall; i++)
   {
     Eat_me eat_me = new Eat_me();
     lBall.add(eat_me);
   }
 
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < numeBall; i++)
   {
     Stay_away stay_away = new Stay_away(i);
     evilBall.add(stay_away);
   }
+  // ******* ******* //
 }
 
 
@@ -46,43 +52,35 @@ float by= height/3;
 
 void mousePressed()
 {
-  //mousepress for menu
+  //****** PLAY IN MENU *******//
   if (mouseX > bx && mouseX < (bx*3) && mouseY > (height/3) && mouseY < (height/3 +70) )
   {
+    level = 1;
     mode = 1;
   }
-  //width/2, height/2 + 50
 
+  //******* PLAY AGAIN *******//
   if (mouseX > width/2 - textWidth("play again") && mouseX < width/2 + textWidth("play again") && 
     mouseY < (height/2 + 50)&& mouseY > (height/2 - 10))
   {
     mode = 1;
+    level = 1;
     dead = false;
     player.size = 20;
-    
+
     for (int i = 0; i < 98; i++)
     {
-      if (lBall.size() <= 100)
+      if (lBall.size() <= numlBall)
       {
         Eat_me eat_me = new Eat_me();
         lBall.add(eat_me);
       }//end if
     }
- 
   }
-
-  //mousepress for game over NOT WORKING
-  //width/2, height/2 + 50)
-  //if (mouseX > 250 && mouseX < 540 && mouseY > 400 && mouseY < 460 )
-  //{
-  //  mode = 1;
-  //  dead = false;
-  //}
-}
+}//end mousePressed()
 
 void draw()
 {
-
   //println(mouseX, mouseY);
   //println(lBall.size());
   background (255);
@@ -105,6 +103,11 @@ void draw()
       gameOver();
       break;
     }
+    //case 3:
+    //{
+    //  //instructions bar
+    //  //go back to menu bar
+    //}
   }
 }
 
@@ -137,8 +140,15 @@ void menuBackground()
   }//end for
 }//end menuBackgrpund()
 
+int counter = 1;
 void playGame()
 {
+   switch (level)
+   {
+
+
+  case 1:
+  {
   //****** lBall ******//
   //adds more eat_me
   if (lBall.size()< 60)
@@ -146,32 +156,67 @@ void playGame()
     Eat_me eat_me = new Eat_me();
     lBall.add(eat_me);
   }//end if
-
+ println("Number of lballs " + lBall.size());
   //eat me hitbox
-  for (int i = 0; i < lBall.size(); i++)
+  break;
+  }//end case 1
+
+  case 2:
+  {
+
+  //sets lball to 80
+  if (lBall.size() > 80)
+  {
+    for (int i = lBall.size() -1; i > 80; i--)
+    {
+      lBall.remove(i);
+    }
+  } else if (lBall.size() < 80)
+  {
+    for (int i = lBall.size(); i < 80; i++)
+    {
+      Eat_me eat_me = new Eat_me();
+      lBall.add(eat_me);
+    }
+  }
+  numeBall = 6;
+  //numlBall = numlBall - 10;
+break;
+  }//end case 2
+   }
+
+  //** Evil Ball **//
+
+  // Every 200 balls eaten, go up a level
+  if (counter % 100 == 0)
+  {
+    level++;
+  }
+
+for (int i = 0; i < lBall.size(); i++)
   {
     if (dist(lBall.get(i).x, lBall.get(i).y, mouseX, mouseY) < (player.size/2))
     {
       //println("remove");
       lBall.remove(i);
 
+      counter ++;
+      println("The number of lBall eaten " + counter);
+
       player.increase();
     }
   }
-
   // shows eat me
   for (int i = 0; i < lBall.size(); i++)
     lBall.get(i).render();
 
-
-  //** Evil Ball **//
-  
-  if (evilBall.size()< 4)
+  if (evilBall.size()< numeBall)
   {
-    Stay_away stay_away = new Stay_away(5);
+    Stay_away stay_away = new Stay_away(5); //5 is speed
     evilBall.add(stay_away);
   }//end if
-  
+
+
   for (int i = 0; i < evilBall.size(); i++)
   {
     if (dist(evilBall.get(i).pos.x, evilBall.get(i).pos.y, mouseX, mouseY) < (player.size/2))
@@ -180,6 +225,7 @@ void playGame()
       evilBall.remove(i);
 
       dead = true;
+      counter = 0;
     }//end if
   }//end for
 
@@ -194,7 +240,8 @@ void playGame()
 
   if (dead)
     mode = 2;
-}
+  //}
+}//end playGame()
 
 void gameOver()
 {
