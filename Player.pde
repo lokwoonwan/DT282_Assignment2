@@ -24,12 +24,12 @@ class Player
   
   void increase()
   {
-    if (size <= 70)
+    if (size <= 75)
     {
       size += 1;
     }
     
-    else if (size >= 71)
+    else if (size >= 76)
     {
       size += .2;
     }
