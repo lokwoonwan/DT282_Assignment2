@@ -8,17 +8,27 @@ ArrayList <Stay_away> evilBall = new ArrayList <Stay_away> ();
 //PVector theBallPosition;
 //PVector theBallVelocity;  
 
+// Variable for the game mode: Intro screen, playing game & game over
 int mode;
+// Boolean to determine if player is dead
 boolean dead = false;
+// Variable to control level of game
 int level = 0;
+// Variable to control operations upon level up
+// Having this variable ensures certain operations are only executed once per time spent on level
 int levelSetting = 1;
 
+// Variable to time entry to next level
 int levelTimer = 180;
 int levelCountdown = 3;
 boolean levelStart = false;
 
+// Number of eatable balls
 int numlBall = 150;
+// Number of evil balls
 int numeBall = 4;
+
+// Music library for game
 Minim minim;
 AudioPlayer HMusic;
 
@@ -31,15 +41,17 @@ void setup()
   size(800, 800);
   bx = width * 0.5f;
   by = height * 0.12f;
-
+  
+  // Loading custom font
   PFont font;
   font = loadFont("AmericanTypewriter-48.vlw");
   textFont(font, 48);
 
+  // Creating new player
   player = new Player();
   dead = false;
 
-  //****** ADDING INITIAL OBJECTS TO START OF GAME *******//
+  // Adding new dots to the initial game
   for (int i = 0; i <= numlBall; i++)
   {
     Eat_me eat_me = new Eat_me();
@@ -51,20 +63,20 @@ void setup()
     Stay_away stay_away = new Stay_away(i);
     evilBall.add(stay_away);
   }
-  // ******* ******* //
   
+  // Creates the sound file
   minim = new Minim(this);
   
+  // Plays music file
   HMusic = minim.loadFile("HMusic.mp3");
   HMusic.play();
+  // Loops the sound file so that it replays
   HMusic.loop();
 }//end setup()
 
-
-
 Player player;
 
-
+// Size of "start game" box
 float bx;
 float by;
 
