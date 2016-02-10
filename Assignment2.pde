@@ -38,7 +38,7 @@ void setup()
     evilBall.add(stay_away);
   }
   // ******* ******* //
-}
+}//end setup()
 
 
 
@@ -50,36 +50,50 @@ float by= height/3;
 
 //bx, by, (bx*2), (by+70)
 
+//rect((width/4), (height/3+150), (bx*2), (by+70)
 void mousePressed()
 {
   //****** PLAY IN MENU *******//
   if (mouseX > bx && mouseX < (bx*3) && mouseY > (height/3) && mouseY < (height/3 +70) )
   {
-    level = 1;
-    mode = 1;
+   level = 1;
+   mode = 1;
+  }
+  //instruction box
+    if (mouseX > width/4 - textWidth("Instructions") && mouseX < width/4 + textWidth("Instructions") &&
+      mouseY > height/2 +200 - textWidth ("Instrctions") && mouseY < height/3 + 100 + textWidth ("Instructions"))
+  {
+    mode = 3;
   }
 
   //******* PLAY AGAIN *******//
-  if (mouseX > width/2 - textWidth("play again") && mouseX < width/2 + textWidth("play again") && 
-    mouseY < (height/2 + 50)&& mouseY > (height/2 - 10))
-  {
-    mode = 1;
-    level = 1;
-    dead = false;
-    player.size = 20;
-    counter = 0;
-      numlBall = 150;
-  numeBall = 4;
+  //if (mouseX > bx - textWidth("play again") && mouseX < (bx*3) + textWidth("play again") && 
+  //  mouseY < (height/3)&& mouseY > (height/3 + 70))
+  //{
+  //  mode = 1;
+  //  level = 1;
+  //  dead = false;
+  //  player.size = 20;
+  //  counter = 0;
+  //  numlBall = 150;
+  //  numeBall = 4;
 
-    for (int i = 0; i < numlBall - 1; i++)
-    {
-      if (lBall.size() <= numlBall)
+  //  for (int i = 0; i < numlBall - 1; i++)
+  //  {
+  //    if (lBall.size() <= numlBall)
+  //    {
+  //      Eat_me eat_me = new Eat_me();
+  //      lBall.add(eat_me);
+  //    }//end if
+  //  }
+  //}
+  
+  //******* Back to Menu ********//
+  if (mouseX > width * 0.9 - textWidth("Back to Menu") && mouseX < width * 0.9 + textWidth("Back to Menu") &&
+      mouseY > height * 0.9 - textWidth ("Back to Menu") && mouseY < height * 0.9 + textWidth ("Back to Menu"))
       {
-        Eat_me eat_me = new Eat_me();
-        lBall.add(eat_me);
-      }//end if
-    }
-  }
+        mode = 0;
+      }
 }//end mousePressed()
 
 void draw()
@@ -106,11 +120,11 @@ void draw()
       gameOver();
       break;
     }
-    //case 3:
-    //{
-    //  //instructions bar
-    //  //go back to menu bar
-    //}
+    case 3:
+    {
+     instructions();
+     break;
+    }
   }
 }
 
@@ -122,10 +136,14 @@ void menu()
   fill (235);
   stroke(0);
   rect(width/4, height/3, (bx*2), (by+70));
+  rect((width/4), (height/3+150), (bx*2), (by+70)); //for instructions
   //println("by is " + by);
   textSize (40);
   fill (0);
-  text("Play", (width/3 + 90), 325);
+  textAlign(CENTER);
+  text("Play", (width/2), 325);
+  
+  text("Instructions", (width/2), (height *0.6));
 }//end menu()
 
 void menuBackground()
@@ -142,6 +160,18 @@ void menuBackground()
     evilBall.get(i).update();
   }//end for
 }//end menuBackgrpund()
+
+void instructions()
+{
+  textSize(60);
+  textAlign(CENTER);
+  text("INSTRUCTIONS", (width/2), (height *0.15));
+  textSize(40);
+  text("Eat as many little dots as possible.\nto get to the next level.\nAvoid the red balls or you will DIE!!", width/2, (height*0.4));
+  textSize(20);
+  textAlign(RIGHT);
+  text("Back to Menu", width * 0.9, height * 0.9);
+}
 
 int counter = 1;
 int LevelOp=0;
@@ -261,15 +291,18 @@ void playGame()
   //}
 }//end playGame()
 
+
+
 void gameOver()
 {
 
   background(255, 0, 0);
   textAlign(CENTER);
   fill(255);
-  textSize(50);
-  text("Game Over", width/2, height/2 - 100);
-  text("Play again!", width/2, height/2 + 50);
+  textSize(60);
+  text("Game Over", width/2, height * 0.1);
+  textSize(40);
+  text("Play again!", width/2, 325);
 
   //mode = 1;
   //dead = false;
