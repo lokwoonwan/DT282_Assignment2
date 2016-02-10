@@ -4,24 +4,18 @@ Christmas Assignment
 
 The object of the game is to "consume" as many small dots as possible.
 Touching the red dot will kill you. 
-After consuming 200 small dots, you are on the next level.
+When you consume the edible dots, you (the player) will increase in size slowly.
+When you reach a certain size, you need to consume more to grow.
+After consuming 100 small dots, you are on the next level.
+
+There are 3 levels.
+
+As you move onto levels, there are more red dots created that can kill you, and less edible dots that make you grow in size.
+
+You can restart your game if you lose or go back to the menu.
+There are instructions for you to read.
 
 
 
-BUGS
-Play again = doesn't reset the number of eat_Me balls and stay_Away balls to original value (global variable).
-
-
-TO DO:
-Music input for menu and game.
-Music input for Game Over
-Music input for being within a certain radius of stay_Away ball.
-
-Level 3 (most difficult)
-
-Display what level you are on on screen for a short amount of time. Need opacity
-
-Text at the side to say how many eat_Me balls consumed.
-
-"Back to Menu" button on Game over screen.
-"Instruction" needed in menu(). Back button.
+* Sound credit goes to http://www.bensound.com/royalty-free-music/corporate-pop
+** I did not use keypress in my game, as I prefer the player to follow my mouse. I also suck at using keypress so it was difficult to test my game :)
