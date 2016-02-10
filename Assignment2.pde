@@ -7,11 +7,11 @@ ArrayList <Stay_away> evilBall = new ArrayList <Stay_away> ();
 int mode;
 boolean dead = false;
 int level = 0;
-//int levelSetting = 1;
+int levelSetting = 1;
 
-//int levelTimer = 180;
-//int levelCountdown = 3;
-//boolean levelStart = false;
+int levelTimer = 180;
+int levelCountdown = 3;
+boolean levelStart = false;
 
 int numlBall = 100;
 int numeBall = 4;
@@ -22,6 +22,8 @@ void setup()
   smooth();
   frameRate(60);
   size(800, 800);
+  bx = width * 0.5f;
+  by = height * 0.12f;
 
   PFont font;
   font = loadFont("AmericanTypewriter-48.vlw");
@@ -50,8 +52,8 @@ void setup()
 Player player;
 
 
-float bx = 200;
-float by= height/3;
+float bx;
+float by;
 
 //bx, by, (bx*2), (by+70)
 
@@ -59,42 +61,44 @@ float by= height/3;
 void mousePressed()
 {
   //****** PLAY IN MENU *******//
-  if (mouseX > bx && mouseX < (bx*3) && mouseY > (height/3) && mouseY < (height/3 +70) )
+  if (mouseX > width * 0.25f && mouseX < width * 0.75f && mouseY > (height/3) && mouseY < height/3 + by)
   {
     level = 1;
     mode = 1;
     dead = false;
   }
   //instruction box
-  if (mouseX > width/4 - textWidth("Instructions") && mouseX < width/4 + textWidth("Instructions") &&
-    mouseY > height/2 +200 - textWidth ("Instrctions") && mouseY < height/3 + 100 + textWidth ("Instructions"))
+  if (mouseX > width * 0.25f && mouseX < width * 0.75f && mouseY > height * 0.52f && mouseY < height * 0.52f + by)
   {
     mode = 3;
   }
 
   //******* PLAY AGAIN *******//
-  if (mouseX > bx - textWidth("play again") && mouseX < (bx*3) + textWidth("play again") && 
-    mouseY < (height*0.2 - textWidth ("play again"))&& mouseY > (height*0.2  + textWidth ("play again")))
+  textSize(50);
+  float tWidth = textWidth("Play Again");
+  //******* PLAY AGAIN *******//
+  if (mouseX > width/2 - tWidth && mouseX < width/2 + tWidth && 
+    mouseY < (height/2 + 50)&& mouseY > (height/2 - 10))
   {
+    // Reset all variables for restart of game
     mode = 1;
     counter = 1;
     level = 1;
-    //levelSetting = 0;
-    //levelTimer = 180;
-    //levelCountdown = 3;
-    //levelStart = false;
+    levelSetting = 0;
+    levelTimer = 180;
+    levelCountdown = 3;
+    levelStart = false;
     dead = false;
     player.size = 20;
     numlBall = 100;
     numeBall = 4;
 
-    for (int i = 0; i < numlBall - 1; i++)
+    lBall.clear();
+    evilBall.clear();
+    for (int i = 0; i <= numlBall; i++)
     {
-      if (lBall.size() <= numlBall)
-      {
-        Eat_me eat_me = new Eat_me();
-        lBall.add(eat_me);
-      }//end if
+      Eat_me eat_me = new Eat_me();
+      lBall.add(eat_me);
     }
   }
 
@@ -108,9 +112,11 @@ void mousePressed()
 
 void draw()
 {
+
   //println(mouseX, mouseY);
   //println(lBall.size());
   background (255);
+
 
   switch(mode)
   {
@@ -145,8 +151,10 @@ void menu()
 
   fill (235);
   stroke(0);
-  rect(width/4, height/3, (bx*2), (by+70));
-  rect((width/4), (height/3+150), (bx*2), (by+70)); //for instructions
+  rectMode(CORNER);
+  rect(width * 0.25f, height/3, bx, by);
+  rect(width * 0.25f, height * 0.52f, bx, by);
+   //for instructions
   //println("by is " + by);
   textSize (40);
   fill (0);
@@ -192,12 +200,10 @@ void gameOver()
   text("Game Over", width/2, height * 0.1);
   textSize(40);
   text("Play again!", width/2, 325);
-    textSize(20);
+  textSize(20);
   textAlign(RIGHT);
-    text("Back to Menu", width * 0.9, height * 0.9);
-
-  //mode = 1;
-  //dead = false;
+  text("Back to Menu", width * 0.9, height * 0.9);
+  dead = false;
 }
 
 int counter = 1;
@@ -205,121 +211,176 @@ int counter = 1;
 //boolean LevelOpB=false;
 void playGame()
 {
+  textAlign(CENTER);
+  fill(0);
+  textSize(35);
+  text("Level: " + level, width * 0.5f, height * 0.05f); 
+  textSize(15);
+  text("Balls until level up: " + (100 - counter), width * 0.85f, height * 0.95f);
+
   switch (level)
   {
-
-
   case 1:
+    // If ball setup for this level has not yet been completed
+    if (levelSetting == 0)
     {
-      //****** lBall ******//
-      //adds more eat_me
-      if (lBall.size()< 90)
-      {
-        Eat_me eat_me = new Eat_me();
-        lBall.add(eat_me);
-      }//end if
-      //println("Number of lballs " + lBall.size());
-      //eat me hitbox
-      break;
-    }//end case 1
+      // Call function that will ensure there is correct number of balls to start the level
+      ballSetup(numlBall);        
+      // Update value of levelSetting, so that this if statement won't execute again while on this level
+      levelSetting = 1;
+      // Update number of eatable balls for next level
+      numlBall = 80;
+    }
 
-  case 2:
+    if (levelStart == false)
+      levelCountdown();
+
+    // Ensures there is always n number of eat me balls onscreen for this level
+    minNumBalls(60);
+    break;
+
+  case 2:  
+    if (levelSetting == 1)
     {
-      //fill(0,LevelOp);
-      //textAlign(CENTER);
-      //text("NEXT LEVEL",width/2,height/2);
-      //if(LevelOpB==true)
-      //{
-      //  LevelOp=255;
-      //  LevelOpB=false;
-      //}
-      //LevelOp--; 
-
-      //sets lball to 80
-      player.size = 20;
-
-      if (lBall.size() > 80)
-      {
-        for (int i = lBall.size() -1; i > 80; i--)
-        {
-          lBall.remove(i);
-        }
-      } else if (lBall.size() < 80)
-      {
-        for (int i = lBall.size(); i < 80; i++)
-        {
-          Eat_me eat_me = new Eat_me();
-          lBall.add(eat_me);
-        }
-      }
+      //levelTimer = 0;
+      ballSetup(numlBall);        
+      levelSetting = 2;
+      numlBall = 60;
+      player.size -= 15;
+      // Increase number of evil balls
       numeBall = 6;
-      //numlBall = numlBall - 10;
-      break;
-    }//end case 2
-  }
+    }
 
-  //** Evil Ball **//
+    if (levelStart == false)
+      levelCountdown();
 
-  // Every 200 balls eaten, go up a level
-  if (counter % 200 == 0)
+    minNumBalls(40);
+    break;
+
+  case 3:
+    if (levelSetting == 2)
+    {
+      ballSetup(numlBall);        
+      levelSetting = 3;
+      // Increase number of evil balls
+      numeBall = 8;
+      player.size -= 15;
+    }
+
+    if (levelStart == false)
+      levelCountdown();
+
+    minNumBalls(30);
+    break;
+  } // End Switch
+
+  // Every 100 balls eaten, go up a level
+  if (counter == 100)
   {
     level++;
-    //LevelOpB=true;
-    //println("next level");
+    counter = 1;
+    levelStart = false;
   }
 
-  for (int i = 0; i < lBall.size(); i++)
+  if (levelStart)
   {
-    if (dist(lBall.get(i).x, lBall.get(i).y, mouseX, mouseY) < (player.size/2))
+    // If player ball is touching an eatable ball, remove the eatable ball, increase the eaten counter and increase the size of the player
+    for (int i = 0; i < lBall.size(); i++)
     {
-      //println("remove");
-      lBall.remove(i);
-
-      counter ++;
-      println("The number of lBall eaten " + counter);
-
-      player.increase();
+      if (dist(lBall.get(i).x, lBall.get(i).y, mouseX, mouseY) < (player.size/2))
+      {
+        lBall.remove(i);
+        counter ++;
+        player.increase();
+      }
     }
   }
-  // shows eat me
+
+  // Display all eat me balls
   for (int i = 0; i < lBall.size(); i++)
     lBall.get(i).render();
 
-  if (evilBall.size()< numeBall)
+  // Show and move evil balls
+  for (int i = 0; i < evilBall.size(); i++)
   {
-    Stay_away stay_away = new Stay_away(5); //5 is speed
-    evilBall.add(stay_away);
+    evilBall.get(i).render();
+    // Only move balls if level has started
+    if (levelStart)
+      evilBall.get(i).update();
+  }
+
+  // If number of evil balls is less than it should be, add more (this happens on level up, when more evil balls are required)
+  if (evilBall.size() < numeBall)
+  {
+    // Find how many more balls are required by taking the current number away from the desired amount
+    // Then loop (and add) that many evil balls
+    for (int i = 0; i < numeBall - evilBall.size(); i++)
+    {
+      Stay_away stay_away = new Stay_away(5); //5 is speed
+      evilBall.add(stay_away);
+    }
   }//end if
 
-
+  // If player ball is touching an evil ball, set dead to be true, mode to be game over (2) and reset eaten counter
   for (int i = 0; i < evilBall.size(); i++)
   {
     if (dist(evilBall.get(i).pos.x, evilBall.get(i).pos.y, mouseX, mouseY) < (player.size/2))
     {
-      //println("remove");
-      evilBall.remove(i);
+      //evilBall.remove(i);
 
       dead = true;
-      counter = 0;
+      mode = 2;
     }//end if
   }//end for
 
-  for (int i = 0; i < evilBall.size(); i++)
-  {
-    evilBall.get(i).render();
-    evilBall.get(i).update();
-  }
-
+  // Show the player ball if they are not dead
   if (dead != true)
     player.render();
-
-  if (dead)
-    mode = 2;
-  //}
 }//end playGame()
 
+void ballSetup(int numberBalls)
+{
+  // Adds or takes away eatable balls, until there is the correct number for the level
+  if (lBall.size() > numberBalls)
+  {
+    for (int i = lBall.size() -1; i > numberBalls; i--)
+    {
+      lBall.remove(i);
+    }
+  } else if (lBall.size() < numberBalls)
+  {
+    for (int i = lBall.size(); i < numberBalls; i++)
+    {
+      Eat_me eat_me = new Eat_me();
+      lBall.add(eat_me);
+    }
+  }
+}
 
+void levelCountdown()
+{ 
+  textSize(45);
+  fill(0);
+  text(levelCountdown + ". . ", width * 0.5f, height * 0.5f);
+  levelTimer--;
+  if (levelTimer % 60 == 0)
+    levelCountdown--;
+  if (levelTimer == 0)
+  {
+    levelStart = true;
+    levelTimer = 180;
+    levelCountdown = 3;
+  }
+}
 
+void minNumBalls(int numberBalls)
+{
+  if (lBall.size() < numberBalls)
+  {
+    Eat_me eat_me = new Eat_me();
+    lBall.add(eat_me);
+  }//end if
+}
 
 
 //void keyPressed() // User's graph selection
