@@ -1,14 +1,19 @@
 ArrayList <Eat_me> lBall = new ArrayList <Eat_me> (); //Make array list for the balls.
 ArrayList <Stay_away> evilBall = new ArrayList <Stay_away> ();
 
-PVector theBallPosition;
-PVector theBallVelocity;  
+//PVector theBallPosition;
+//PVector theBallVelocity;  
 
 int mode;
-int level;
-boolean dead;
+boolean dead = false;
+int level = 0;
+//int levelSetting = 1;
 
-int numlBall = 150;
+//int levelTimer = 180;
+//int levelCountdown = 3;
+//boolean levelStart = false;
+
+int numlBall = 100;
 int numeBall = 4;
 
 
@@ -56,44 +61,49 @@ void mousePressed()
   //****** PLAY IN MENU *******//
   if (mouseX > bx && mouseX < (bx*3) && mouseY > (height/3) && mouseY < (height/3 +70) )
   {
-   level = 1;
-   mode = 1;
+    level = 1;
+    mode = 1;
+    dead = false;
   }
   //instruction box
-    if (mouseX > width/4 - textWidth("Instructions") && mouseX < width/4 + textWidth("Instructions") &&
-      mouseY > height/2 +200 - textWidth ("Instrctions") && mouseY < height/3 + 100 + textWidth ("Instructions"))
+  if (mouseX > width/4 - textWidth("Instructions") && mouseX < width/4 + textWidth("Instructions") &&
+    mouseY > height/2 +200 - textWidth ("Instrctions") && mouseY < height/3 + 100 + textWidth ("Instructions"))
   {
     mode = 3;
   }
 
   //******* PLAY AGAIN *******//
-  //if (mouseX > bx - textWidth("play again") && mouseX < (bx*3) + textWidth("play again") && 
-  //  mouseY < (height/3)&& mouseY > (height/3 + 70))
-  //{
-  //  mode = 1;
-  //  level = 1;
-  //  dead = false;
-  //  player.size = 20;
-  //  counter = 0;
-  //  numlBall = 150;
-  //  numeBall = 4;
+  if (mouseX > bx - textWidth("play again") && mouseX < (bx*3) + textWidth("play again") && 
+    mouseY < (height*0.2 - textWidth ("play again"))&& mouseY > (height*0.2  + textWidth ("play again")))
+  {
+    mode = 1;
+    counter = 1;
+    level = 1;
+    //levelSetting = 0;
+    //levelTimer = 180;
+    //levelCountdown = 3;
+    //levelStart = false;
+    dead = false;
+    player.size = 20;
+    numlBall = 100;
+    numeBall = 4;
 
-  //  for (int i = 0; i < numlBall - 1; i++)
-  //  {
-  //    if (lBall.size() <= numlBall)
-  //    {
-  //      Eat_me eat_me = new Eat_me();
-  //      lBall.add(eat_me);
-  //    }//end if
-  //  }
-  //}
-  
+    for (int i = 0; i < numlBall - 1; i++)
+    {
+      if (lBall.size() <= numlBall)
+      {
+        Eat_me eat_me = new Eat_me();
+        lBall.add(eat_me);
+      }//end if
+    }
+  }
+
   //******* Back to Menu ********//
   if (mouseX > width * 0.9 - textWidth("Back to Menu") && mouseX < width * 0.9 + textWidth("Back to Menu") &&
-      mouseY > height * 0.9 - textWidth ("Back to Menu") && mouseY < height * 0.9 + textWidth ("Back to Menu"))
-      {
-        mode = 0;
-      }
+    mouseY > height * 0.9 - textWidth ("Back to Menu") && mouseY < height * 0.9 + textWidth ("Back to Menu"))
+  {
+    mode = 0;
+  }
 }//end mousePressed()
 
 void draw()
@@ -120,10 +130,10 @@ void draw()
       gameOver();
       break;
     }
-    case 3:
+  case 3:
     {
-     instructions();
-     break;
+      instructions();
+      break;
     }
   }
 }
@@ -142,7 +152,6 @@ void menu()
   fill (0);
   textAlign(CENTER);
   text("Play", (width/2), 325);
-  
   text("Instructions", (width/2), (height *0.6));
 }//end menu()
 
@@ -173,9 +182,27 @@ void instructions()
   text("Back to Menu", width * 0.9, height * 0.9);
 }
 
+void gameOver()
+{
+
+  background(255, 0, 0);
+  textAlign(CENTER);
+  fill(255);
+  textSize(60);
+  text("Game Over", width/2, height * 0.1);
+  textSize(40);
+  text("Play again!", width/2, 325);
+    textSize(20);
+  textAlign(RIGHT);
+    text("Back to Menu", width * 0.9, height * 0.9);
+
+  //mode = 1;
+  //dead = false;
+}
+
 int counter = 1;
-int LevelOp=0;
-boolean LevelOpB=false;
+//int LevelOp=0;
+//boolean LevelOpB=false;
 void playGame()
 {
   switch (level)
@@ -293,20 +320,7 @@ void playGame()
 
 
 
-void gameOver()
-{
 
-  background(255, 0, 0);
-  textAlign(CENTER);
-  fill(255);
-  textSize(60);
-  text("Game Over", width/2, height * 0.1);
-  textSize(40);
-  text("Play again!", width/2, 325);
-
-  //mode = 1;
-  //dead = false;
-}
 
 //void keyPressed() // User's graph selection
 //{

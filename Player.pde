@@ -5,8 +5,8 @@ class Player
   
   Player()
   {
-  theBallPosition = new PVector(width/2,height/2); 
-  theBallVelocity = new PVector(1.3,1);
+  //theBallPosition = new PVector(width/2,height/2); 
+  //theBallVelocity = new PVector(1.3,1);
   size = 20;
   }
   
