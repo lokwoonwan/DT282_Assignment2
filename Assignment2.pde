@@ -8,7 +8,7 @@ int mode;
 int level;
 boolean dead;
 
-int numlBall = 100;
+int numlBall = 150;
 int numeBall = 4;
 
 
@@ -67,8 +67,11 @@ void mousePressed()
     level = 1;
     dead = false;
     player.size = 20;
+    counter = 0;
+      numlBall = 150;
+  numeBall = 4;
 
-    for (int i = 0; i < 98; i++)
+    for (int i = 0; i < numlBall - 1; i++)
     {
       if (lBall.size() <= numlBall)
       {
@@ -145,56 +148,58 @@ int LevelOp=0;
 boolean LevelOpB=false;
 void playGame()
 {
-   switch (level)
-   {
+  switch (level)
+  {
 
 
   case 1:
-  {
-  //****** lBall ******//
-  //adds more eat_me
-  if (lBall.size()< 60)
-  {
-    Eat_me eat_me = new Eat_me();
-    lBall.add(eat_me);
-  }//end if
- //println("Number of lballs " + lBall.size());
-  //eat me hitbox
-  break;
-  }//end case 1
+    {
+      //****** lBall ******//
+      //adds more eat_me
+      if (lBall.size()< 90)
+      {
+        Eat_me eat_me = new Eat_me();
+        lBall.add(eat_me);
+      }//end if
+      //println("Number of lballs " + lBall.size());
+      //eat me hitbox
+      break;
+    }//end case 1
 
   case 2:
-  {
-    //fill(0,LevelOp);
-    //textAlign(CENTER);
-    //text("NEXT LEVEL",width/2,height/2);
-    //if(LevelOpB==true)
-    //{
-    //  LevelOp=255;
-    //  LevelOpB=false;
-    //}
-    //LevelOp--; 
-    
-  //sets lball to 80
-  if (lBall.size() > 80)
-  {
-    for (int i = lBall.size() -1; i > 80; i--)
     {
-      lBall.remove(i);
-    }
-  } else if (lBall.size() < 80)
-  {
-    for (int i = lBall.size(); i < 80; i++)
-    {
-      Eat_me eat_me = new Eat_me();
-      lBall.add(eat_me);
-    }
+      //fill(0,LevelOp);
+      //textAlign(CENTER);
+      //text("NEXT LEVEL",width/2,height/2);
+      //if(LevelOpB==true)
+      //{
+      //  LevelOp=255;
+      //  LevelOpB=false;
+      //}
+      //LevelOp--; 
+
+      //sets lball to 80
+      player.size = 20;
+
+      if (lBall.size() > 80)
+      {
+        for (int i = lBall.size() -1; i > 80; i--)
+        {
+          lBall.remove(i);
+        }
+      } else if (lBall.size() < 80)
+      {
+        for (int i = lBall.size(); i < 80; i++)
+        {
+          Eat_me eat_me = new Eat_me();
+          lBall.add(eat_me);
+        }
+      }
+      numeBall = 6;
+      //numlBall = numlBall - 10;
+      break;
+    }//end case 2
   }
-  numeBall = 6;
-  //numlBall = numlBall - 10;
-break;
-  }//end case 2
-   }
 
   //** Evil Ball **//
 
@@ -203,10 +208,10 @@ break;
   {
     level++;
     //LevelOpB=true;
-    println("next level");
+    //println("next level");
   }
 
-for (int i = 0; i < lBall.size(); i++)
+  for (int i = 0; i < lBall.size(); i++)
   {
     if (dist(lBall.get(i).x, lBall.get(i).y, mouseX, mouseY) < (player.size/2))
     {
@@ -214,7 +219,7 @@ for (int i = 0; i < lBall.size(); i++)
       lBall.remove(i);
 
       counter ++;
-      //println("The number of lBall eaten " + counter);
+      println("The number of lBall eaten " + counter);
 
       player.increase();
     }
@@ -265,6 +270,7 @@ void gameOver()
   textSize(50);
   text("Game Over", width/2, height/2 - 100);
   text("Play again!", width/2, height/2 + 50);
+
   //mode = 1;
   //dead = false;
 }
