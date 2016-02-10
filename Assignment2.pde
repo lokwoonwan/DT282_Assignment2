@@ -13,7 +13,7 @@ int levelTimer = 180;
 int levelCountdown = 3;
 boolean levelStart = false;
 
-int numlBall = 100;
+int numlBall = 150;
 int numeBall = 4;
 
 
@@ -63,23 +63,24 @@ void mousePressed()
   //****** PLAY IN MENU *******//
   if (mouseX > width * 0.25f && mouseX < width * 0.75f && mouseY > (height/3) && mouseY < height/3 + by)
   {
-    level = 1;
-    mode = 1;
-    dead = false;
+   level = 1;
+   mode = 1;
+   dead = false;
   }
   //instruction box
   if (mouseX > width * 0.25f && mouseX < width * 0.75f && mouseY > height * 0.52f && mouseY < height * 0.52f + by)
   {
-    mode = 3;
+   mode = 3;
   }
 
   //******* PLAY AGAIN *******//
-  textSize(50);
+  textSize(40);
   float tWidth = textWidth("Play Again");
   //******* PLAY AGAIN *******//
   if (mouseX > width/2 - tWidth && mouseX < width/2 + tWidth && 
-    mouseY < (height/2 + 50)&& mouseY > (height/2 - 10))
+    mouseY < 325 && mouseY > 265)
   {
+    println("this");
     // Reset all variables for restart of game
     mode = 1;
     counter = 1;
@@ -104,9 +105,9 @@ void mousePressed()
 
   //******* Back to Menu ********//
   if (mouseX > width * 0.9 - textWidth("Back to Menu") && mouseX < width * 0.9 + textWidth("Back to Menu") &&
-    mouseY > height * 0.9 - textWidth ("Back to Menu") && mouseY < height * 0.9 + textWidth ("Back to Menu"))
+   mouseY > height * 0.9 - textWidth ("Back to Menu") && mouseY < height * 0.9 + textWidth ("Back to Menu"))
   {
-    mode = 0;
+   mode = 0;
   }
 }//end mousePressed()
 
@@ -192,7 +193,6 @@ void instructions()
 
 void gameOver()
 {
-
   background(255, 0, 0);
   textAlign(CENTER);
   fill(255);
@@ -207,8 +207,6 @@ void gameOver()
 }
 
 int counter = 1;
-//int LevelOp=0;
-//boolean LevelOpB=false;
 void playGame()
 {
   textAlign(CENTER);
