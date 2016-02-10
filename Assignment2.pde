@@ -1,4 +1,8 @@
-ArrayList <Eat_me> lBall = new ArrayList <Eat_me> (); //Make array list for the balls.
+import ddf.minim.*;
+
+// Arraylist of balls to be eaten
+ArrayList <Eat_me> lBall = new ArrayList <Eat_me> ();
+// Arraylist of evil balls, those that kill the player
 ArrayList <Stay_away> evilBall = new ArrayList <Stay_away> ();
 
 //PVector theBallPosition;
@@ -15,6 +19,9 @@ boolean levelStart = false;
 
 int numlBall = 150;
 int numeBall = 4;
+Minim minim;
+AudioPlayer HMusic;
+
 
 
 void setup()
@@ -45,6 +52,12 @@ void setup()
     evilBall.add(stay_away);
   }
   // ******* ******* //
+  
+  minim = new Minim(this);
+  
+  HMusic = minim.loadFile("HMusic.mp3");
+  HMusic.play();
+  HMusic.loop();
 }//end setup()
 
 
