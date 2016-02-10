@@ -1,10 +1,13 @@
+//class for evil ball
 class Stay_away
 {
+  //initialising variables
   float size;
   color c;
   float x;
   float y;
   
+  //position of player
   PVector pos;
   PVector move;
   float xMove;
@@ -13,13 +16,16 @@ class Stay_away
   //constructor
   Stay_away(int speed)
   {
+    //sets size and color of evil Ball
     size = 30;
     c = color(255,0,0);
     x = random(width);
     y = random(height);
     
+    //position of circle
     pos = new PVector(x, y);
     
+    //allows circle to move at random
     xMove = random(-speed, speed);
     yMove = random(-speed, speed);
     
@@ -30,6 +36,7 @@ class Stay_away
     move = new PVector(xMove, yMove);
   }
   
+  //keeps evil ball within game
   void update()
   {
     pos.add(move);
@@ -44,6 +51,7 @@ class Stay_away
       pos.y = 0;
   }
   
+  //for evil Ball to be called in main
   void render()
   {
     noStroke();

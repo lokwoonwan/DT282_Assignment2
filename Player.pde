@@ -22,6 +22,7 @@ class Player
   ellipse(mouseX ,mouseY,size,size); // Placing the circle
   }
   
+  //increases size by a certain amount if the current size has reached a certain radius
   void increase()
   {
     if (size <= 75)
@@ -36,8 +37,4 @@ class Player
     
     //println("Ball size : " + size);
   }
-  
-  //void decrease()
-  //{
-  //}
 }
